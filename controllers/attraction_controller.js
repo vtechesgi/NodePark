@@ -10,7 +10,7 @@ class Attraction_controller {
     }
 
     addAttraction(name, description, image, type, capacity, duration, from, to, disabled, adults) {
-        const att = new Attraction(this.accumulator, name, description, image, type, capacity, duration, from, to, disabled, adults);
+        const att = new Attraction(this.accumulator, name, description, image, type, capacity, duration, from, to, disabled, adults, 1);
         this.attractions.push(att);
         this.accumulator++;
     }

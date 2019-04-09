@@ -1,7 +1,7 @@
 'use strict';
 
 class Attraction {
-    constructor(id, name, description, image, type, capacity, duration, from, to, disabled, adults) {
+    constructor(id, name, description, image, type, capacity, duration, from, to, disabled, adults, working) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -13,6 +13,7 @@ class Attraction {
         this.to = to;
         this.disabled = disabled;
         this.adults = adults;
+        this.working = working;
     }
 
 }

@@ -35,6 +35,27 @@ class User_controller {
         this.billet_accumulator++;
         user.billets.push(b);
     }
+
+    canEnter(user, attraction) {
+        for(let b in user.billets) {
+            if(b.type === attraction.type)
+                return true;
+        }
+        return false;
+    }
+
+    switchOff(user, attraction) {
+        if(user.admin) {
+            if(attraction.working) {
+                attraction.working = 0;
+                return attraction.name + " mise en maintenance";
+            }
+            else {
+                return attraction.name + " est deja en maintenance";
+            }
+        }
+        return "l'utilisateur n'est pas administrateur";
+    }
 }
 
 module.exports = new User_controller();
