@@ -15,7 +15,7 @@ class Attraction_controller {
         this.accumulator++;
     }
 
-    getAll() {
+    getAllAttraction() {
         return this.attractions;
     }
 }

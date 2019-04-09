@@ -8,10 +8,6 @@ const user_controller = controller.BilletController;
 
 router.use(bodyParser.json());
 
-router.get('/', async(req, res) => {
-    res.json(user_controller.getAllUser());
-});
-
 router.post('/', async (req, res) => {
     if(!req.body.type) {
         return res.status(400).end();
