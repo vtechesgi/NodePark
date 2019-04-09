@@ -15,6 +15,10 @@ class Attraction_controller {
         this.accumulator++;
     }
 
+    getAttractionById(i) {
+        return this.attractions.find((ev) => ev.id === i);
+    }
+
     getAllAttraction() {
         return this.attractions;
     }

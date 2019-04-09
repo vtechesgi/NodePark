@@ -3,6 +3,7 @@
 const models = require('../models');
 const Billet = models.Billet;
 const User = models.User;
+const badgage_controller = require('./badgage_controller');
 
 class User_controller {
     constructor() {
@@ -36,12 +37,22 @@ class User_controller {
         user.billets.push(b);
     }
 
-    canEnter(user, attraction) {
+    static canEnter(user, attraction) {
         for(let b in user.billets) {
             if(b.type === attraction.type)
                 return true;
         }
         return false;
+    }
+
+    enter(user, attraction) {
+        if(User_controller.canEnter(user, attraction)) {
+            badgage_controller.addBadgage(attraction);
+            return "badgage enregistré";
+        }
+        else {
+            return user.name + " n'a pas la permission d'entrer dans " + attraction.name;
+        }
     }
 
     switchOff(user, attraction) {
