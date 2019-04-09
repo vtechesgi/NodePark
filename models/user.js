@@ -7,6 +7,7 @@ class User {
         this.password = password;
         this.age = age;
         this.admin = admin;
+        this.billets = [];
     }
 }
 

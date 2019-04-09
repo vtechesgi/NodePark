@@ -9,6 +9,7 @@ class User_controller {
         this.users = [];
         this.accumulator = 0;
         this.billets = [];
+        this.billet_accumulator = 0;
     }
 
     addUser(username, password, age, admin) {
@@ -17,13 +18,22 @@ class User_controller {
         this.accumulator++;
     }
 
-    getUser(id) {
-        return this.users.findById(id);
+    getUser(i) {
+        return this.users.find((ev) => ev.id === i);
     }
 
-    getBillet(ticket_id, type) {
-        const b = new Billet(ticket_id, type);
-        this.users.billets.push(b);
+    getAllUser() {
+        return this.users;
+    }
+
+    getBilletsByUser(i) {
+        return this.users.find((ev) => ev.id === i).billets;
+    }
+
+    addBillet(type, user) {
+        const b = new Billet(this.billet_accumulator, type);
+        this.billet_accumulator++;
+        user.billets.push(b);
     }
 }
 
