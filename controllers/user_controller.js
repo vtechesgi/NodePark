@@ -4,34 +4,35 @@ const models = require('../models');
 const Billet = models.Billet;
 const User = models.User;
 const badgage_controller = require('./badgage_controller');
+const database = models.Database;
 
 class User_controller {
     constructor() {
         this.users = [];
-        this.accumulator = 0;
         this.billets = [];
         this.billet_accumulator = 0;
     }
 
-    addUser(username, password, age, admin) {
-        const u = new User(this.accumulator, username, password, age, admin);
-        this.users.push(u);
-        this.accumulator++;
+     async addUser(username, password, age, admin) {
+        //const u = new User(this.accumulator, username, password, age, admin);
+        //this.users.push(u);
+        return await database.connection.execute('INSERT INTO users (username, password, age, admin) VALUES (?,?,?,?)', [username, password, age, admin]);
     }
 
-    getUser(i) {
+    async getUser(i) {
         return this.users.find((ev) => ev.id === i);
     }
 
-    getAllUser() {
-        return this.users;
+     async getAllUser() {
+        const results = await database.connection.query('SELECT id, username, password, age, admin FROM users');
+        return results[0].map((row) => new User(row.id, row.username, row.password, row.age, row.admin));
     }
 
-    getBilletsByUser(i) {
+    async getBilletsByUser(i) {
         return this.users.find((ev) => ev.id === i).billets;
     }
 
-    addBillet(type, user) {
+    async addBillet(type, user) {
         const b = new Billet(this.billet_accumulator, type);
         this.billet_accumulator++;
         user.billets.push(b);

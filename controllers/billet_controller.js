@@ -1,8 +1,8 @@
 'use strict';
 
 const models = require('../models');
-const Billet = models.billet;
-const Attraction = models.attractions;
+const Billet = models.Billet;
+const Attraction = models.Attraction;
 
 class Billet_controller {
     constructor() {
@@ -10,13 +10,13 @@ class Billet_controller {
         this.accumulator = 0;
     }
 
-    addBillet(type) {
+    async addBillet(type) {
         const b = new Billet(this.accumulator, type);
         this.billets.push(b);
         this.accumulator++;
     }
 
-    addAttraction(Attraction) {
+    async addAttraction(Attraction) {
         this.billets.attractions.push(Attraction);
     }
 }

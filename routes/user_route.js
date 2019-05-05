@@ -2,15 +2,16 @@
 
 const express = require('express');
 const bodyParser = require("body-parser");
-const router = express.Router();
 const controller = require('../controllers');
 const user_controller = controller.UserController;
 const attraction_controller = controller.AttractionController;
 
+const router = express.Router();
 router.use(bodyParser.json());
 
-router.get('/', async(req, res) => {
-    res.json(user_controller.getAllUser());
+router.get('/', async (req, res) => {
+    const users = await user_controller.getAllUser();
+    res.json(users);
 });
 
 router.get('/:id', async (req, res) => {
@@ -48,7 +49,7 @@ router.post('/billet', async (req, res) => {
     res.status(201).end();
 });
 
-router.post('/attraction', async(req, res) => {
+router.post('/attraction', async (req, res) => {
     if(!req.body.user_id || !req.body.attraction_id) {
         return res.status(400).end();
     }
