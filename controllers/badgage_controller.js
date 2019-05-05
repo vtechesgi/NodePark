@@ -37,7 +37,10 @@ class Badgage_controller {
                 return Math.ceil(time_diff / (24 * 3600 * 30));
             }
             let by_month = element.entries / getMonthFromToToday(element.dateFrom);
-            results.push(by_month);
+            results.push({
+                AttractionName: element.name,
+                NbrEntreesParMois: by_month
+            });
         });
         return results;
     }
@@ -52,8 +55,12 @@ class Badgage_controller {
                 return Math.ceil(time_diff / (24 * 3600));
             }
             let by_day = element.entries / getDayFromToToday(element.dateFrom);
-            results.push(by_day);
+            results.push({
+                AttractionName: element.name,
+                NbrEntreesParJour: by_day
+            });
         });
+        console.log(results);
         return results;
     }
 
