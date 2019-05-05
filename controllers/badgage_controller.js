@@ -1,7 +1,7 @@
 'use strict';
 
 const models = require('../models');
-const Attraction = models.attraction;
+const Attraction = models.Attraction;
 const User = models.User;
 const Billet = models.Billet;
 

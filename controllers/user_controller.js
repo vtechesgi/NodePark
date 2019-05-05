@@ -19,8 +19,13 @@ class User_controller {
         return await database.connection.execute('INSERT INTO users (username, password, age, admin) VALUES (?,?,?,?)', [username, password, age, admin]);
     }
 
-    async getUser(i) {
-        return this.users.find((ev) => ev.id === i);
+    async getUser(id) {
+        const result = await database.connection.query('SELECT * FROM users WHERE id = ?',[id]);
+        const rows = result[0];
+        if(result[0].length > 0){
+            return new User(rows[0].id, rows[0].username, rows[0].password, rows[0].age ,rows[0].admin);
+        }
+        return undefined;
     }
 
      async getAllUser() {

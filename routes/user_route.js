@@ -16,10 +16,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const id = Number.parseInt(req.params.id);
-    if(user_controller.getUser(id) === undefined) {
+    const userId = await user_controller.getUser(id);
+    if(userId === undefined) {
         return res.status(404).end();
     }
-    res.json(user_controller.getUser(id));
+    res.json(userId);
     res.status(200).end();
 });
 
