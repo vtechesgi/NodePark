@@ -4,42 +4,65 @@ const models = require('../models');
 const Attraction = models.Attraction;
 const User = models.User;
 const Billet = models.Billet;
+const database = models.Database;
+const attractionController = require('./attraction_controller');
 
 class Badgage_controller {
 
-    addBadgage(attraction) {
-        //@TODO insert INTO attractions
+    async addBadgage(id_attraction) {
+        try {
+            const attraction = await attractionController.getAttractionById(id_attraction);
+            if(attraction === undefined) {
+                console.log("results est undefined");
+                return false;
+            }
+        } catch (e) {
+            console.log(e);
+        }
+        const results = await database.connection.execute('UPDATE attraction SET entries = entries+1 WHERE id = ?', [id_attraction]);
+        if(results === undefined) {
+            console.log("results est undefined");
+            return false;
+        }
+        return true;
     }
 
-    getDayFromToToday(from) {
-        let time_diff = from.getDate() - Date.now();
-        return Math.ceil(time_diff / (1000 * 3600 * 24));
-    }
-
-    getMonthFromToToday(from) {
-        let time_diff = from.getDate() - Date.now();
-        return Math.ceil(time_diff / (1000 * 3600 + 24 + 30));
-    }
-    getMonthByAttraction() {
-        const attractions_result = [new Attraction(), new Attraction(), new Attraction()]; //A remplacer par la liste des attractiosn stockees dans la bdd
+    async getMonthByAttraction() {
+        const attractions_result = await attractionController.getAllAttraction();
         const results = [];
-        for(let attraction_i in attractions_result) {
-            const by_month = attraction_i.entrees / this.getMonthFromToToday(attraction_i.from);
+
+        attractions_result.forEach(function (element) {
+            function getMonthFromToToday(from) {
+                let time_diff = Date.now()/1000 - from;
+                return Math.ceil(time_diff / (24 * 3600 * 30));
+            }
+            let by_month = element.entries / getMonthFromToToday(element.dateFrom);
             results.push(by_month);
-        }
+        });
         return results;
     }
 
-    getDayByAttraction() {
-        const attractions_result = [new Attraction(), new Attraction(), new Attraction()]; //A remplacer par la liste des attractiosn stockees dans la bdd
+    async getDayByAttraction() {
+        const attractions_result = await attractionController.getAllAttraction();
         const results = [];
-        for(let attraction_i in attractions_result) {
-            const by_day = attraction_i.entrees / this.getDayFromToToday(attraction_i.from);
+
+        attractions_result.forEach(function (element) {
+            function getDayFromToToday(from) {
+                let time_diff = Date.now() - from;
+                return Math.ceil(time_diff / (24 * 3600));
+            }
+            let by_day = element.entries / getDayFromToToday(element.dateFrom);
             results.push(by_day);
-        }
+        });
         return results;
     }
 
+    async getAllStats() {
+        const final_results = [];
+        final_results.push(await this.getDayByAttraction());
+        final_results.push(await this.getMonthByAttraction());
+        return final_results;
+    }
 
 }
 
