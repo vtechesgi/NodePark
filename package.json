@@ -27,7 +27,7 @@
   "dependencies": {
     "dotenv": "^7.0.0",
     "morgan": "^1.9.1",
-    "sequelize": "^5.2.11"
+    "sequelize": "^5.15.1"
   },
   "description": ""
 }
